@@ -23,3 +23,24 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8084/eureka
     registerWithEureka: true
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    endpoints:
+      web:
+        exposure:
+          include: health
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ratinghotelbreaker:
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
